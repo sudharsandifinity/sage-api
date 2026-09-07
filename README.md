@@ -36,6 +36,7 @@ npm run dev
 | GET | `/api/v1/users/:id` | `dbo.usp_GetUserById` |
 | PUT | `/api/v1/users/:id` | `dbo.usp_UpdateUser` |
 | DELETE | `/api/v1/users/:id` | `dbo.usp_DeleteUser` |
+| POST | `/api/v1/sales-orders/export` | `dbo.USP_EXPORT_SALESORDER_WMS_V1` |
 | GET | `/api/v1/customers?search=&page=1&pageSize=50` | `dbo.usp_GetCustomers` (placeholder, table not in `SP_test`) |
 
 ### Users

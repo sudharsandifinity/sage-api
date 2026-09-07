@@ -39,10 +39,7 @@ export async function getPool(): Promise<sql.ConnectionPool> {
           logger.error({ err: error }, 'Database pool error');
         });
         pool = connected;
-        logger.info(
-          { server: env.DB_SERVER, database: env.DB_NAME },
-          'Connected to Sage database',
-        );
+        logger.info({ server: env.DB_SERVER, database: env.DB_NAME }, 'Connected to database');
         return connected;
       })
       .catch((error: unknown) => {
