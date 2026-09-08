@@ -1,8 +1,6 @@
 import { AppError } from '../../utils/AppError.js';
 import * as repository from './salesOrders.repository.js';
 
-export const STATIC_SALES_ORDER_NUMBER = 'SO00000002';
-
 export interface ExportResult {
   salesOrder: string;
   status: number;

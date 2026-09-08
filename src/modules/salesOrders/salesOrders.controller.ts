@@ -1,7 +1,10 @@
 import type { RequestHandler } from 'express';
-import { STATIC_SALES_ORDER_NUMBER, exportSalesOrder } from './salesOrders.service.js';
+import { validatedParams } from '../../middleware/validate.js';
+import type { ExportSalesOrderParams } from './salesOrders.schema.js';
+import { exportSalesOrder } from './salesOrders.service.js';
 
-export const exportSalesOrderHandler: RequestHandler = async (_req, res) => {
-  const result = await exportSalesOrder(STATIC_SALES_ORDER_NUMBER);
+export const exportSalesOrderHandler: RequestHandler = async (req, res) => {
+  const { soNumber } = validatedParams<ExportSalesOrderParams>(req);
+  const result = await exportSalesOrder(soNumber);
   res.status(200).json({ data: result });
 };
