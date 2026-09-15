@@ -36,6 +36,7 @@ npm run dev
 | GET | `/api/v1/users/:id` | `dbo.usp_GetUserById` |
 | PUT | `/api/v1/users/:id` | `dbo.usp_UpdateUser` |
 | DELETE | `/api/v1/users/:id` | `dbo.usp_DeleteUser` |
+| POST | `/api/v1/customer-returns/asn-import` | `dbo.USP_IMPORT_CUSTOMER_RETURN_ASN_TO_X3` |
 | POST | `/api/v1/purchase-orders/:poNumber/export` | `dbo.USP_EXPORT_PURCHASEORDER_WMS_V1` |
 | POST | `/api/v1/purchase-orders/:poNumber/asn-import` | `dbo.USP_IMPORT_ASN_TO_X3` |
 | POST | `/api/v1/sales-orders/:soNumber/export` | `dbo.USP_EXPORT_SALESORDER_WMS_V1` |
