@@ -1,33 +1,20 @@
 import { z } from 'zod';
 
-const hasPohSequence = (value: string): boolean => {
-  const index = value.indexOf('POH');
-  if (index === -1) {
-    return false;
-  }
-
-  const tail = value.slice(index + 3);
-  return tail.length > 0 && /^\d+$/.test(tail);
-};
-
-const purchaseOrderNumber = (max: number) =>
+const documentNumber = (max: number) =>
   z
     .string()
     .trim()
-    .min(4)
+    .min(1)
     .max(max)
-    .transform((value) => value.toUpperCase())
-    .refine(
-      hasPohSequence,
-      'Expected a Sage PO number containing POH followed by a numeric sequence',
-    );
+    .regex(/^[A-Za-z0-9._-]+$/, 'Only letters, digits and . _ - are allowed')
+    .transform((value) => value.toUpperCase());
 
 export const exportPurchaseOrderParamsSchema = z.object({
-  poNumber: purchaseOrderNumber(30),
+  poNumber: documentNumber(30),
 });
 
 export const asnImportParamsSchema = z.object({
-  poNumber: purchaseOrderNumber(50),
+  poNumber: documentNumber(50),
 });
 
 export type ExportPurchaseOrderParams = z.infer<typeof exportPurchaseOrderParamsSchema>;
