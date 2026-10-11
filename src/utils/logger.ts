@@ -3,7 +3,7 @@ import { env, isProduction } from '../config/env.js';
 
 export const logger = pino({
   level: env.LOG_LEVEL,
-  base: { service: 'sage-api' },
+  base: { service: 'sage-api-1' },
   redact: {
     paths: ['req.headers.authorization', 'req.headers.cookie', 'DB_PASSWORD'],
     remove: true,

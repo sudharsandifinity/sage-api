@@ -39,6 +39,7 @@ npm run dev
 | POST | `/api/v1/customer-outstanding/import?customerCode=` | `dbo.USP_IMPORT_SAGE_CUSTOMER_OUTSTANDING` |
 | POST | `/api/v1/customer-returns/asn-import` | `dbo.USP_IMPORT_CUSTOMER_RETURN_ASN_TO_X3` |
 | POST | `/api/v1/items/import?itemCode=&categoryCode=` | `dbo.USP_IMPORT_SAGE_ITEM_TO_SONIC` |
+| POST | `/api/v1/price-lists/import?priceListCode=` | `dbo.USP_IMPORT_SAGE_PRICELIST_TO_SONIC` |
 | POST | `/api/v1/purchase-orders/:poNumber/export` | `dbo.USP_EXPORT_PURCHASEORDER_WMS_V1` |
 | POST | `/api/v1/purchase-orders/:poNumber/asn-import` | `dbo.USP_IMPORT_ASN_TO_X3` |
 | POST | `/api/v1/sales-orders/:soNumber/export` | `dbo.USP_EXPORT_SALESORDER_WMS_V1` |
