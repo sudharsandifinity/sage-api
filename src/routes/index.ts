@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { customerOutstandingRouter } from '../modules/customerOutstanding/customerOutstanding.routes.js';
 import { customerReturnsRouter } from '../modules/customerReturns/customerReturns.routes.js';
+import { customerMasterRouter } from '../modules/customerMaster/customerMaster.routes.js';
 import { customersRouter } from '../modules/customers/customers.routes.js';
 import { deliveryTransactionsRouter } from '../modules/deliveryTransactions/deliveryTransactions.routes.js';
 import { itemsRouter } from '../modules/items/items.routes.js';
@@ -14,6 +15,7 @@ export const apiRouter = Router();
 
 apiRouter.use('/customer-outstanding', customerOutstandingRouter);
 apiRouter.use('/customer-returns', customerReturnsRouter);
+apiRouter.use('/customers', customerMasterRouter);
 apiRouter.use('/customers', customersRouter);
 apiRouter.use('/delivery-transactions', deliveryTransactionsRouter);
 apiRouter.use('/items', itemsRouter);

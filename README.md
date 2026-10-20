@@ -45,6 +45,7 @@ npm run dev
 | POST | `/api/v1/customer-outstanding/import?customerCode=` | `dbo.USP_IMPORT_SAGE_CUSTOMER_OUTSTANDING` |
 | POST | `/api/v1/warehouse-stock/export` | `dbo.USP_EXPORT_WAREHOUSE_STOCK_TO_SONIC` |
 | POST | `/api/v1/delivery-transactions/export?invoiceNumber=&includeRows=` | `dbo.USP_EXPORT_DELIVERY_TRANSACTIONS_TO_SONIC` |
+| POST | `/api/v1/customers/import?billToCode=&includeRows=` | `dbo.USP_IMPORT_SAGE_CUSTOMER_TO_SONIC` |
 | POST | `/api/v1/customer-returns/asn-import` | `dbo.USP_IMPORT_CUSTOMER_RETURN_ASN_TO_X3` |
 | POST | `/api/v1/items/import?itemCode=&categoryCode=` | `dbo.USP_IMPORT_SAGE_ITEM_TO_SONIC` |
 | POST | `/api/v1/price-lists/import?priceListCode=` | `dbo.USP_IMPORT_SAGE_PRICELIST_TO_SONIC` |
@@ -52,7 +53,7 @@ npm run dev
 | POST | `/api/v1/purchase-orders/:poNumber/asn-import` | `dbo.USP_IMPORT_ASN_TO_X3` |
 | POST | `/api/v1/sales-orders/:soNumber/export` | `dbo.USP_EXPORT_SALESORDER_WMS_V1` |
 | POST | `/api/v1/sales-orders/:soNumber/pick-confirmation` | `dbo.USP_GET_WM9_PICK_CONFIRMATION1` |
-| GET | `/api/v1/customers?search=&page=1&pageSize=50` | `dbo.usp_GetCustomers` (placeholder, table not in `SP_test`) |
+| GET | `/api/v1/customers?search=&page=&pageSize=` | `dbo.usp_GetCustomers` |
 
 ### Users
 
