@@ -17,6 +17,7 @@ export interface ProcedureResult<TRecord> {
   output: Record<string, unknown>;
   returnValue: number;
   rowsAffected: number[];
+  messages: string[];
 }
 
 export async function executeProcedure<TRecord = Record<string, unknown>>(
@@ -25,6 +26,13 @@ export async function executeProcedure<TRecord = Record<string, unknown>>(
 ): Promise<ProcedureResult<TRecord>> {
   const pool = await getPool();
   const request = pool.request();
+  const messages: string[] = [];
+
+  request.on('info', (info: { message?: string }) => {
+    if (info?.message) {
+      messages.push(info.message);
+    }
+  });
 
   for (const [name, param] of Object.entries(params)) {
     if (param.direction === 'output') {
@@ -42,6 +50,7 @@ export async function executeProcedure<TRecord = Record<string, unknown>>(
     output: (result.output ?? {}) as Record<string, unknown>,
     returnValue: result.returnValue,
     rowsAffected: result.rowsAffected ?? [],
+    messages,
   };
 }
 

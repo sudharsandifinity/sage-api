@@ -25,6 +25,12 @@ npm run dev
 | `npm run db:apply` | Apply files from `sql/` (all, or the names you pass) |
 | `npm run typecheck` | Type check only |
 
+## Documentation
+
+- [docs/API.md](docs/API.md) - full endpoint reference: parameters, stored procedures, databases, responses and error codes
+- [docs/endpoints.csv](docs/endpoints.csv) - the same inventory as a spreadsheet
+- [prod/DEPLOY.md](prod/DEPLOY.md) - Windows deployment and PM2 operations
+
 ## Endpoints
 
 | Method | Path | Stored procedure |
@@ -37,6 +43,8 @@ npm run dev
 | PUT | `/api/v1/users/:id` | `dbo.usp_UpdateUser` |
 | DELETE | `/api/v1/users/:id` | `dbo.usp_DeleteUser` |
 | POST | `/api/v1/customer-outstanding/import?customerCode=` | `dbo.USP_IMPORT_SAGE_CUSTOMER_OUTSTANDING` |
+| POST | `/api/v1/warehouse-stock/export` | `dbo.USP_EXPORT_WAREHOUSE_STOCK_TO_SONIC` |
+| POST | `/api/v1/delivery-transactions/export?invoiceNumber=&includeRows=` | `dbo.USP_EXPORT_DELIVERY_TRANSACTIONS_TO_SONIC` |
 | POST | `/api/v1/customer-returns/asn-import` | `dbo.USP_IMPORT_CUSTOMER_RETURN_ASN_TO_X3` |
 | POST | `/api/v1/items/import?itemCode=&categoryCode=` | `dbo.USP_IMPORT_SAGE_ITEM_TO_SONIC` |
 | POST | `/api/v1/price-lists/import?priceListCode=` | `dbo.USP_IMPORT_SAGE_PRICELIST_TO_SONIC` |
