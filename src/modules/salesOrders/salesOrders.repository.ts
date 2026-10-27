@@ -1,4 +1,5 @@
 import { executeProcedure, input, sql } from '../../db/executeProcedure.js';
+import type { PushSalesOrdersQuery } from './salesOrders.schema.js';
 
 export interface ExportSalesOrderRow {
   STATUS: number;
@@ -56,4 +57,23 @@ export async function getPickConfirmation(soNumber: string): Promise<PickConfirm
   const lines = sets.length > 1 ? ((sets[0] ?? []) as unknown as PickConfirmationLineRow[]) : [];
 
   return { status: statusRow, lines };
+}
+
+export interface PushSalesOrderRow {
+  OrderNumber: string;
+  IsProcessed: number | null;
+  ERPMessage: string | null;
+  ERPReferenceNo: string | null;
+}
+
+const PUSH_SALES_ORDER_TO_X3 = 'dbo.USP_PUSH_SALESORDER_TO_X3';
+
+export async function pushSalesOrdersToX3(
+  filters: PushSalesOrdersQuery,
+): Promise<PushSalesOrderRow[]> {
+  const result = await executeProcedure<PushSalesOrderRow>(PUSH_SALES_ORDER_TO_X3, {
+    OrderNumber: input(sql.NVarChar(50), filters.orderNumber ?? null),
+  });
+
+  return result.recordset;
 }

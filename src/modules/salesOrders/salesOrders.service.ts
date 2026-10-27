@@ -1,6 +1,7 @@
 import { AppError } from '../../utils/AppError.js';
 import * as repository from './salesOrders.repository.js';
-import type { PickConfirmationLineRow } from './salesOrders.repository.js';
+import type { PickConfirmationLineRow, PushSalesOrderRow } from './salesOrders.repository.js';
+import type { PushSalesOrdersQuery } from './salesOrders.schema.js';
 
 export interface ExportResult {
   salesOrder: string;
@@ -57,4 +58,42 @@ export async function confirmPick(soNumber: string): Promise<PickConfirmationRes
   }
 
   return { salesOrder: soNumber, status: code, message, lines: lines.map(toLine) };
+}
+
+export interface PushedSalesOrder {
+  orderNumber: string;
+  isProcessed: number;
+  erpMessage: string | null;
+  erpReferenceNo: string | null;
+}
+
+export interface PushSalesOrdersResult {
+  orderNumber: string | null;
+  total: number;
+  succeeded: number;
+  failed: number;
+  results: PushedSalesOrder[];
+}
+
+const toPushedOrder = (row: PushSalesOrderRow): PushedSalesOrder => ({
+  orderNumber: row.OrderNumber,
+  isProcessed: Number(row.IsProcessed ?? 0),
+  erpMessage: row.ERPMessage,
+  erpReferenceNo: row.ERPReferenceNo,
+});
+
+export async function pushSalesOrders(
+  filters: PushSalesOrdersQuery,
+): Promise<PushSalesOrdersResult> {
+  const rows = await repository.pushSalesOrdersToX3(filters);
+  const results = rows.map(toPushedOrder);
+  const succeeded = results.filter((order) => order.isProcessed === 1).length;
+
+  return {
+    orderNumber: filters.orderNumber ?? null,
+    total: results.length,
+    succeeded,
+    failed: results.length - succeeded,
+    results,
+  };
 }
