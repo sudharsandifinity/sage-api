@@ -46,6 +46,7 @@ npm run dev
 | POST | `/api/v1/warehouse-stock/export` | `dbo.USP_EXPORT_WAREHOUSE_STOCK_TO_SONIC` |
 | POST | `/api/v1/delivery-transactions/export?invoiceNumber=&includeRows=` | `dbo.USP_EXPORT_DELIVERY_TRANSACTIONS_TO_SONIC` |
 | POST | `/api/v1/customers/import?billToCode=&includeRows=` | `dbo.USP_IMPORT_SAGE_CUSTOMER_TO_SONIC` |
+| POST | `/api/v1/stock-movements/export?transactionId=&includeRows=` | `dbo.USP_EXPORT_SAGE_STOCK_MOVEMENTS_TO_SONIC` |
 | POST | `/api/v1/customer-returns/asn-import` | `dbo.USP_IMPORT_CUSTOMER_RETURN_ASN_TO_X3` |
 | POST | `/api/v1/items/import?itemCode=&categoryCode=` | `dbo.USP_IMPORT_SAGE_ITEM_TO_SONIC` |
 | POST | `/api/v1/price-lists/import?priceListCode=` | `dbo.USP_IMPORT_SAGE_PRICELIST_TO_SONIC` |

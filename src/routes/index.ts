@@ -8,6 +8,7 @@ import { itemsRouter } from '../modules/items/items.routes.js';
 import { priceListsRouter } from '../modules/priceLists/priceLists.routes.js';
 import { purchaseOrdersRouter } from '../modules/purchaseOrders/purchaseOrders.routes.js';
 import { salesOrdersRouter } from '../modules/salesOrders/salesOrders.routes.js';
+import { stockMovementsRouter } from '../modules/stockMovements/stockMovements.routes.js';
 import { usersRouter } from '../modules/users/users.routes.js';
 import { warehouseStockRouter } from '../modules/warehouseStock/warehouseStock.routes.js';
 
@@ -22,5 +23,6 @@ apiRouter.use('/items', itemsRouter);
 apiRouter.use('/price-lists', priceListsRouter);
 apiRouter.use('/purchase-orders', purchaseOrdersRouter);
 apiRouter.use('/sales-orders', salesOrdersRouter);
+apiRouter.use('/stock-movements', stockMovementsRouter);
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/warehouse-stock', warehouseStockRouter);
