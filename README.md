@@ -55,6 +55,7 @@ npm run dev
 | POST | `/api/v1/sales-orders/:soNumber/export` | `dbo.USP_EXPORT_SALESORDER_WMS_V1` |
 | POST | `/api/v1/sales-orders/:soNumber/pick-confirmation` | `dbo.USP_GET_WM9_PICK_CONFIRMATION1` |
 | POST | `/api/v1/sales-orders/push?orderNumber=` | `dbo.USP_PUSH_SALESORDER_TO_X3` |
+| POST | `/api/v1/payments/push?paymentNumber=` | `dbo.USP_Payment_Integration` |
 | GET | `/api/v1/customers?search=&page=&pageSize=` | `dbo.usp_GetCustomers` |
 
 ### Users

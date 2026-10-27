@@ -5,6 +5,7 @@ import { customerMasterRouter } from '../modules/customerMaster/customerMaster.r
 import { customersRouter } from '../modules/customers/customers.routes.js';
 import { deliveryTransactionsRouter } from '../modules/deliveryTransactions/deliveryTransactions.routes.js';
 import { itemsRouter } from '../modules/items/items.routes.js';
+import { paymentsRouter } from '../modules/payments/payments.routes.js';
 import { priceListsRouter } from '../modules/priceLists/priceLists.routes.js';
 import { purchaseOrdersRouter } from '../modules/purchaseOrders/purchaseOrders.routes.js';
 import { salesOrdersRouter } from '../modules/salesOrders/salesOrders.routes.js';
@@ -20,6 +21,7 @@ apiRouter.use('/customers', customerMasterRouter);
 apiRouter.use('/customers', customersRouter);
 apiRouter.use('/delivery-transactions', deliveryTransactionsRouter);
 apiRouter.use('/items', itemsRouter);
+apiRouter.use('/payments', paymentsRouter);
 apiRouter.use('/price-lists', priceListsRouter);
 apiRouter.use('/purchase-orders', purchaseOrdersRouter);
 apiRouter.use('/sales-orders', salesOrdersRouter);
