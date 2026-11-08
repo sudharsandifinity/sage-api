@@ -57,6 +57,7 @@ npm run dev
 | POST | `/api/v1/sales-orders/push?orderNumber=` | `dbo.USP_PUSH_SALESORDER_TO_X3` |
 | POST | `/api/v1/payments/push?paymentNumber=` | `dbo.USP_Payment_Integration` |
 | POST | `/api/v1/sales-invoices/push?transactionNumber=` | `dbo.USPSalesInvoiceIntegration` |
+| POST | `/api/v1/approved-loads/push?transactionId=` | `dbo.USP_ApprovedLoadIntegration` |
 | GET | `/api/v1/customers?search=&page=&pageSize=` | `dbo.usp_GetCustomers` |
 
 ### Users

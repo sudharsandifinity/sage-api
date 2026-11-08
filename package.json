@@ -10,6 +10,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "prod:pack": "npm run build && node scripts/pack-prod.mjs",
+    "prod:check": "node scripts/check-prod.mjs",
     "start": "node dist/server.js",
     "pm2:name": "node -e \"console.log(require('./ecosystem.config.cjs').apps[0].name)\"",
     "pm2:start": "pm2 start ecosystem.config.cjs",

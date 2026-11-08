@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { approvedLoadsRouter } from '../modules/approvedLoads/approvedLoads.routes.js';
 import { customerOutstandingRouter } from '../modules/customerOutstanding/customerOutstanding.routes.js';
 import { customerReturnsRouter } from '../modules/customerReturns/customerReturns.routes.js';
 import { customerMasterRouter } from '../modules/customerMaster/customerMaster.routes.js';
@@ -16,6 +17,7 @@ import { warehouseStockRouter } from '../modules/warehouseStock/warehouseStock.r
 
 export const apiRouter = Router();
 
+apiRouter.use('/approved-loads', approvedLoadsRouter);
 apiRouter.use('/customer-outstanding', customerOutstandingRouter);
 apiRouter.use('/customer-returns', customerReturnsRouter);
 apiRouter.use('/customers', customerMasterRouter);
