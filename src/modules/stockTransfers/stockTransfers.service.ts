@@ -1,5 +1,5 @@
 import * as repository from './stockTransfers.repository.js';
-import type { StockTransferResultRow } from './stockTransfers.repository.js';
+import type { StockTransferDirection, StockTransferResultRow } from './stockTransfers.repository.js';
 import type { PushStockTransfersQuery } from './stockTransfers.schema.js';
 
 export interface StockTransferOutcome {
@@ -10,6 +10,7 @@ export interface StockTransferOutcome {
 }
 
 export interface PushStockTransfersResult {
+  direction: StockTransferDirection;
   transactionNumber: string | null;
   total: number;
   successCount: number;
@@ -32,13 +33,15 @@ const toOutcome = (row: StockTransferResultRow): StockTransferOutcome => {
 };
 
 export async function pushStockTransfers(
+  direction: StockTransferDirection,
   filters: PushStockTransfersQuery,
 ): Promise<PushStockTransfersResult> {
-  const rows = await repository.pushStockTransfers(filters);
+  const rows = await repository.pushStockTransfers(direction, filters);
   const results = rows.map(toOutcome);
   const successCount = results.filter((outcome) => outcome.succeeded).length;
 
   return {
+    direction,
     transactionNumber: filters.transactionNumber ?? null,
     total: results.length,
     successCount,

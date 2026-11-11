@@ -7,12 +7,18 @@ export interface StockTransferResultRow {
   ERPMessage: string | null;
 }
 
-const EXPORT_STOCK_TRANSFER_LOAD = 'dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_LOAD';
+export type StockTransferDirection = 'load' | 'offload';
+
+const PROCEDURES: Record<StockTransferDirection, string> = {
+  load: 'dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_LOAD',
+  offload: 'dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_OFFLOAD',
+};
 
 export async function pushStockTransfers(
+  direction: StockTransferDirection,
   filters: PushStockTransfersQuery,
 ): Promise<StockTransferResultRow[]> {
-  const result = await executeProcedure<StockTransferResultRow>(EXPORT_STOCK_TRANSFER_LOAD, {
+  const result = await executeProcedure<StockTransferResultRow>(PROCEDURES[direction], {
     TransactionNumber: input(sql.NVarChar(50), filters.transactionNumber ?? null),
   });
 
