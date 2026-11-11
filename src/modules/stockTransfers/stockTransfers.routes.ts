@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { validate } from '../../middleware/validate.js';
 import {
+  exportTransferOrdersHandler,
   pushStockTransferLoadHandler,
   pushStockTransferOffloadHandler,
 } from './stockTransfers.controller.js';
@@ -19,3 +20,5 @@ stockTransfersRouter.post(
   validate({ query: pushStockTransfersQuerySchema }),
   pushStockTransferOffloadHandler,
 );
+
+stockTransfersRouter.post('/export', exportTransferOrdersHandler);

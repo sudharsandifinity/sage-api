@@ -1,5 +1,10 @@
+import { AppError } from '../../utils/AppError.js';
 import * as repository from './stockTransfers.repository.js';
-import type { StockTransferDirection, StockTransferResultRow } from './stockTransfers.repository.js';
+import type {
+  StockTransferDirection,
+  StockTransferResultRow,
+  TransferOrderExportRow,
+} from './stockTransfers.repository.js';
 import type { PushStockTransfersQuery } from './stockTransfers.schema.js';
 
 export interface StockTransferOutcome {
@@ -18,7 +23,16 @@ export interface PushStockTransfersResult {
   results: StockTransferOutcome[];
 }
 
+export interface ExportTransferOrdersResult {
+  exported: boolean;
+  sageDetailLines: number;
+  wmsLines: number;
+  processedHeaders: number;
+  message: string;
+}
+
 const SUCCESS_MESSAGE = 'successfully inserted into sage x3.';
+const SQL_USER_ERROR_THRESHOLD = 50_000;
 
 const toOutcome = (row: StockTransferResultRow): StockTransferOutcome => {
   const message = row.ERPMessage;
@@ -31,6 +45,8 @@ const toOutcome = (row: StockTransferResultRow): StockTransferOutcome => {
     erpMessage: succeeded ? null : message,
   };
 };
+
+const toCount = (value: number | null | undefined): number => Number(value ?? 0);
 
 export async function pushStockTransfers(
   direction: StockTransferDirection,
@@ -47,5 +63,47 @@ export async function pushStockTransfers(
     successCount,
     failureCount: results.length - successCount,
     results,
+  };
+}
+
+export async function exportTransferOrders(): Promise<ExportTransferOrdersResult> {
+  const row: TransferOrderExportRow | undefined = await repository.exportTransferOrders();
+
+  if (!row) {
+    throw new AppError(
+      500,
+      'TRANSFER_ORDER_EXPORT_FAILED',
+      'Transfer order export returned no result row',
+    );
+  }
+
+  if (row.ErrorNumber !== undefined && row.ErrorNumber !== null) {
+    const number = Number(row.ErrorNumber);
+    const message = row.ErrorMessage ?? 'Transfer order export failed';
+    const details = { errorNumber: number, errorLine: toCount(row.ErrorLine) };
+
+    if (number >= SQL_USER_ERROR_THRESHOLD) {
+      throw new AppError(400, 'TRANSFER_ORDER_EXPORT_FAILED', message, details);
+    }
+
+    throw new AppError(500, 'TRANSFER_ORDER_EXPORT_FAILED', message, details);
+  }
+
+  if (row.Result !== undefined && row.Result !== null) {
+    return {
+      exported: false,
+      sageDetailLines: 0,
+      wmsLines: 0,
+      processedHeaders: 0,
+      message: row.Result,
+    };
+  }
+
+  return {
+    exported: true,
+    sageDetailLines: toCount(row.TotalSageDetailLines),
+    wmsLines: toCount(row.TotalWMSLines),
+    processedHeaders: toCount(row.ProcessedHeaders),
+    message: 'Transfer orders exported to WMS',
   };
 }
