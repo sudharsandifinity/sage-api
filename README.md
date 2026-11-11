@@ -58,6 +58,7 @@ npm run dev
 | POST | `/api/v1/payments/push?paymentNumber=` | `dbo.USP_Payment_Integration` |
 | POST | `/api/v1/sales-invoices/push?transactionNumber=` | `dbo.USPSalesInvoiceIntegration` |
 | POST | `/api/v1/approved-loads/push?transactionId=` | `dbo.USP_ApprovedLoadIntegration` |
+| POST | `/api/v1/stock-transfers/push?transactionNumber=` | `dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_LOAD` |
 | GET | `/api/v1/customers?search=&page=&pageSize=` | `dbo.usp_GetCustomers` |
 
 ### Users
