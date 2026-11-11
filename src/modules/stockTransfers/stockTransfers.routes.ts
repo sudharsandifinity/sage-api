@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { validate } from '../../middleware/validate.js';
 import {
-  exportTransferOrdersHandler,
+  exportTransferOrderLoadHandler,
+  exportTransferOrderOffloadHandler,
   pushStockTransferLoadHandler,
   pushStockTransferOffloadHandler,
 } from './stockTransfers.controller.js';
@@ -15,10 +16,12 @@ stockTransfersRouter.post(
   pushStockTransferLoadHandler,
 );
 
+stockTransfersRouter.post('/load/export', exportTransferOrderLoadHandler);
+
 stockTransfersRouter.post(
   '/offload/push',
   validate({ query: pushStockTransfersQuerySchema }),
   pushStockTransferOffloadHandler,
 );
 
-stockTransfersRouter.post('/export', exportTransferOrdersHandler);
+stockTransfersRouter.post('/offload/export', exportTransferOrderOffloadHandler);

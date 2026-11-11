@@ -24,6 +24,7 @@ export interface PushStockTransfersResult {
 }
 
 export interface ExportTransferOrdersResult {
+  direction: StockTransferDirection;
   exported: boolean;
   sageDetailLines: number;
   wmsLines: number;
@@ -66,8 +67,11 @@ export async function pushStockTransfers(
   };
 }
 
-export async function exportTransferOrders(): Promise<ExportTransferOrdersResult> {
-  const row: TransferOrderExportRow | undefined = await repository.exportTransferOrders();
+export async function exportTransferOrders(
+  direction: StockTransferDirection,
+): Promise<ExportTransferOrdersResult> {
+  const row: TransferOrderExportRow | undefined =
+    await repository.exportTransferOrders(direction);
 
   if (!row) {
     throw new AppError(
@@ -91,6 +95,7 @@ export async function exportTransferOrders(): Promise<ExportTransferOrdersResult
 
   if (row.Result !== undefined && row.Result !== null) {
     return {
+      direction,
       exported: false,
       sageDetailLines: 0,
       wmsLines: 0,
@@ -100,6 +105,7 @@ export async function exportTransferOrders(): Promise<ExportTransferOrdersResult
   }
 
   return {
+    direction,
     exported: true,
     sageDetailLines: toCount(row.TotalSageDetailLines),
     wmsLines: toCount(row.TotalWMSLines),

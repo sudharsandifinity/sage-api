@@ -19,25 +19,30 @@ export interface TransferOrderExportRow {
 
 export type StockTransferDirection = 'load' | 'offload';
 
-const PROCEDURES: Record<StockTransferDirection, string> = {
+const PUSH_PROCEDURES: Record<StockTransferDirection, string> = {
   load: 'dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_LOAD',
   offload: 'dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_OFFLOAD',
 };
 
-const EXPORT_TRANSFER_ORDERS = 'dbo.USP_EXPORT_SAGE_TRANSFER_ORDERS_TO_WMS';
+const EXPORT_PROCEDURES: Record<StockTransferDirection, string> = {
+  load: 'dbo.USP_EXPORT_SAGE_TRANSFER_ORDERS_TO_WMS',
+  offload: 'dbo.USP_EXPORT_SAGE_TRANSFER_ORDERS_TO_WMS_PO',
+};
 
 export async function pushStockTransfers(
   direction: StockTransferDirection,
   filters: PushStockTransfersQuery,
 ): Promise<StockTransferResultRow[]> {
-  const result = await executeProcedure<StockTransferResultRow>(PROCEDURES[direction], {
+  const result = await executeProcedure<StockTransferResultRow>(PUSH_PROCEDURES[direction], {
     TransactionNumber: input(sql.NVarChar(50), filters.transactionNumber ?? null),
   });
 
   return result.recordset;
 }
 
-export async function exportTransferOrders(): Promise<TransferOrderExportRow | undefined> {
-  const result = await executeProcedure<TransferOrderExportRow>(EXPORT_TRANSFER_ORDERS);
+export async function exportTransferOrders(
+  direction: StockTransferDirection,
+): Promise<TransferOrderExportRow | undefined> {
+  const result = await executeProcedure<TransferOrderExportRow>(EXPORT_PROCEDURES[direction]);
   return result.recordset[0];
 }
