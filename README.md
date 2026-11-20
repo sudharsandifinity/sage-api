@@ -60,8 +60,10 @@ npm run dev
 | POST | `/api/v1/approved-loads/push?transactionId=` | `dbo.USP_ApprovedLoadIntegration` |
 | POST | `/api/v1/stock-transfers/load/push?transactionNumber=` | `dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_LOAD` |
 | POST | `/api/v1/stock-transfers/load/export` | `dbo.USP_EXPORT_SAGE_TRANSFER_ORDERS_TO_WMS` |
+| POST | `/api/v1/stock-transfers/load/confirm?soNumber=` | `dbo.USP_EXPORT_WMS_SOIMPORT_TO_SAGE` |
 | POST | `/api/v1/stock-transfers/offload/push?transactionNumber=` | `dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_OFFLOAD` |
 | POST | `/api/v1/stock-transfers/offload/export` | `dbo.USP_EXPORT_SAGE_TRANSFER_ORDERS_TO_WMS_PO` |
+| POST | `/api/v1/stock-transfers/offload/confirm?poNumber=` | `dbo.USP_EXPORT_WMS_POIMPORT_TO_SAGE` |
 | GET | `/api/v1/customers?search=&page=&pageSize=` | `dbo.usp_GetCustomers` |
 
 ### Users

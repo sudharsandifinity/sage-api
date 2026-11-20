@@ -1,6 +1,7 @@
 import { AppError } from '../../utils/AppError.js';
 import * as repository from './stockTransfers.repository.js';
 import type {
+  ConfirmTransferOrdersRow,
   StockTransferDirection,
   StockTransferResultRow,
   TransferOrderExportRow,
@@ -30,6 +31,17 @@ export interface ExportTransferOrdersResult {
   wmsLines: number;
   processedHeaders: number;
   message: string;
+}
+
+export interface ConfirmTransferOrdersResult {
+  direction: StockTransferDirection;
+  status: string;
+  orderNumber: string | null;
+  orderPrefix: string | null;
+  eligibleRecords: number;
+  insertedRecords: number;
+  notInsertedRecords: number;
+  destination: string | null;
 }
 
 const SUCCESS_MESSAGE = 'successfully inserted into sage x3.';
@@ -111,5 +123,52 @@ export async function exportTransferOrders(
     wmsLines: toCount(row.TotalWMSLines),
     processedHeaders: toCount(row.ProcessedHeaders),
     message: 'Transfer orders exported to WMS',
+  };
+}
+
+export async function confirmTransferOrders(
+  direction: StockTransferDirection,
+  orderNumber: string | null,
+): Promise<ConfirmTransferOrdersResult> {
+  const row: ConfirmTransferOrdersRow | undefined =
+    await repository.confirmTransferOrders(direction, orderNumber);
+
+  if (!row) {
+    throw new AppError(
+      500,
+      'TRANSFER_ORDER_CONFIRM_FAILED',
+      'Transfer order confirmation returned no result row',
+    );
+  }
+
+  const status = String(row.Status ?? '').trim().toUpperCase();
+
+  if (status !== 'SUCCESS') {
+    const number = toCount(row.ErrorNumber);
+    const message = row.ErrorMessage ?? 'Transfer order confirmation failed';
+    const details = {
+      direction,
+      status,
+      orderNumber,
+      errorNumber: number,
+      errorLine: toCount(row.ErrorLine),
+    };
+
+    if (number >= SQL_USER_ERROR_THRESHOLD) {
+      throw new AppError(400, 'TRANSFER_ORDER_CONFIRM_FAILED', message, details);
+    }
+
+    throw new AppError(500, 'TRANSFER_ORDER_CONFIRM_FAILED', message, details);
+  }
+
+  return {
+    direction,
+    status,
+    orderNumber,
+    orderPrefix: row.OrderPrefix ?? null,
+    eligibleRecords: toCount(row.EligibleSourceRecords),
+    insertedRecords: toCount(row.InsertedRecords),
+    notInsertedRecords: toCount(row.NotInsertedRecords),
+    destination: row.Destination ?? null,
   };
 }
