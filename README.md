@@ -58,6 +58,7 @@ npm run dev
 | POST | `/api/v1/payments/push?paymentNumber=` | `dbo.USP_Payment_Integration` |
 | POST | `/api/v1/sales-invoices/push?transactionNumber=` | `dbo.USPSalesInvoiceIntegration` |
 | POST | `/api/v1/approved-loads/push?transactionId=` | `dbo.USP_ApprovedLoadIntegration` |
+| POST | `/api/v1/approved-loads/export?transactionId=&includeRows=` | `dbo.USP_EXPORT_SAGE_APPROVED_LOAD_TO_SONIC` |
 | POST | `/api/v1/stock-transfers/load/push?transactionNumber=` | `dbo.USP_EXPORT_SAGE_STOCK_TRANSFER_LOAD` |
 | POST | `/api/v1/stock-transfers/load/export` | `dbo.USP_EXPORT_SAGE_TRANSFER_ORDERS_TO_WMS` |
 | POST | `/api/v1/stock-transfers/load/confirm?soNumber=` | `dbo.USP_EXPORT_WMS_SOIMPORT_TO_SAGE` |
